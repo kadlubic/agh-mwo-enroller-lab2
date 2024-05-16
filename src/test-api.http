@@ -1,0 +1,34 @@
+### GET all meetings
+GET http://localhost:8080/meetings
+Accept: application/json
+
+### GET a meeting by ID
+GET http://localhost:8080/meetings/2
+Accept: application/json
+
+### GET a meeting by ID
+GET http://localhost:8080/meetings/3
+Accept: application/json
+
+### POST create a new meeting
+POST http://localhost:8080/meetings
+Content-Type: application/json
+
+{
+  "title": "New Meeting2",
+  "description": "This is a test meeting",
+  "date": "2024-05-16"
+}
+
+### PUT update an existing meeting
+PUT http://localhost:8080/meetings/2
+Content-Type: application/json
+
+{
+  "title": "Updated Meeting",
+  "description": "This is an updated test meeting",
+  "date": "2024-05-17"
+}
+
+### DELETE a meeting by ID
+DELETE http://localhost:8080/meetings/4

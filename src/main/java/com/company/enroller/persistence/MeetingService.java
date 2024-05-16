@@ -17,8 +17,6 @@ public class MeetingService {
 		session = DatabaseConnector.getInstance().getSession();
 	}
 
-
-
 	public Collection<Meeting> getAll() {
 		String hql = "FROM Meeting";
 		Query query = this.session.createQuery(hql);
@@ -33,25 +31,38 @@ public class MeetingService {
 				hql += " " + sortOrder;
 			}
 		}
-		Query query = session.getSession().createQuery(hql);
+		Query query = session.createQuery(hql);
 		query.setParameter("title", "%" + titleValue + "%");
 		return query.list();
 	}
 
 	public Meeting findById(long id) {
-		return session.getSession().get(Meeting.class, id);
+		return session.get(Meeting.class, id);
+	}
+
+	public Meeting findByTitle(String title) {
+		String hql = "FROM Meeting WHERE title = :title";
+		Query query = session.createQuery(hql);
+		query.setParameter("title", title);
+		return (Meeting) query.uniqueResult();
 	}
 
 	public Meeting add(Meeting meeting) {
-		Transaction transaction = session.getSession().beginTransaction();
-		session.getSession().save(meeting);
+		Transaction transaction = session.beginTransaction();
+		session.save(meeting);
 		transaction.commit();
 		return meeting;
 	}
 
+	public void update(Meeting meeting) {
+		Transaction transaction = session.beginTransaction();
+		session.merge(meeting);
+		transaction.commit();
+	}
+
 	public void delete(Meeting meeting) {
-		Transaction transaction = session.getSession().beginTransaction();
-		session.getSession().delete(meeting);
+		Transaction transaction = session.beginTransaction();
+		session.delete(meeting);
 		transaction.commit();
 	}
 }
